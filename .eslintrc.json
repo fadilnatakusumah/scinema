@@ -41,8 +41,7 @@
     "react-hooks/exhaustive-deps": "warn",
     "import/prefer-default-export": "off",
     "react/prop-types": "off",
-    "react/react-in-jsx-scope": "off",
-    // "max-len": ["warn", { "code": 100 }]
+    "react/react-in-jsx-scope": "off"
   },
   "settings": {
     "import/resolver": {
