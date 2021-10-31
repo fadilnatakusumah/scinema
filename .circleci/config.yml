@@ -24,6 +24,7 @@ version: 2.1
 
 orbs:
   slack: circleci/slack@4.4.4
+  irc: circleci/irc@0.2.0
 
 executors:
   image-executor:
@@ -147,15 +148,16 @@ jobs:
                       "text": "*This is a text notification*",
                       "emoji": true
                     },
-                     {
-                      "type": "plain_text",
-                      "text": "*This is second field*",
-                      "emoji": true
-                    }
                   ]
                 }
               ]
             }
+      - irc/notify:
+          channel: scinema-circleci
+          message: Build completed!
+          nick: circleci-bot
+          port: 6667
+          server: 127.0.0.1
 workflows:
   build_and_deploy:
     jobs:
