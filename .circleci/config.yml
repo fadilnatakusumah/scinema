@@ -37,9 +37,6 @@ jobs:
             - app-{{ checksum "package.json" }}
             - app-
       - run:
-          name: Installing yarn
-          command: sudo npm install -g yarn
-      - run:
           name: Installing dependencies
           command: yarn install
       - save_cache:
@@ -65,7 +62,6 @@ jobs:
       - run:
           name: Build project
           command: |
-            sudo npm install -g yarn
             yarn install
             yarn build
             cd build
@@ -102,7 +98,6 @@ jobs:
       - run:
           name: Build project
           command: |
-            sudo npm install -g yarn
             yarn install
             yarn build
             cd build
