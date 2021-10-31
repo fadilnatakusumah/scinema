@@ -38,7 +38,7 @@ jobs:
             - app-
       - run:
           name: Installing yarn
-          command: npm install -g yarn
+          command: sudo npm install -g yarn
       - run:
           name: Installing dependencies
           command: yarn install
@@ -65,7 +65,7 @@ jobs:
       - run:
           name: Build project
           command: |
-            npm install -g yarn
+            sudo npm install -g yarn
             yarn install
             yarn build
             cd build
@@ -102,7 +102,7 @@ jobs:
       - run:
           name: Build project
           command: |
-            npm install -g yarn
+            sudo npm install -g yarn
             yarn install
             yarn build
             cd build
