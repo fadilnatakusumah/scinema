@@ -174,5 +174,5 @@ workflows:
   send-notification:
     jobs: 
       - notify-via-slack:
-          context: Incredible Context
+          context: incredible-slack-secrets
       
