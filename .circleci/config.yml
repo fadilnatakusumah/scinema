@@ -131,10 +131,15 @@ jobs:
     executor: slack-executor
     resource_class: small
     steps:
+      - run: echo "Notify to slack"
       - slack/notify:
-          message: "${CIRCLE_BRANCH} branch deployment to aws S3 and cloudfront is complete"
-          mentions: "fadil.ntksmh"
-          color: "#42e2f4"
+          event: fail
+          mentions: '@fadil.ntksmh'
+          template: basic_fail_1
+      - slack/notify:
+          mentions: '@fadil.ntksmh'
+          event: pass
+          template: success_tagged_deploy_1
 workflows:
   build_and_deploy:
     jobs:
