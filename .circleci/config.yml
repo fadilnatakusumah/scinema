@@ -30,6 +30,9 @@ executors:
     docker:
       - image: cimg/node:16.13.0
     working_directory: ~/repo
+  slack-executor:
+    docker:
+      - image: "cimg/base:stable"
 
 aliases:
   - &show-current-branch-name
@@ -124,27 +127,14 @@ jobs:
             else
               aws cloudfront create-invalidation --distribution-id ${DEV_DISTRIBUTION_ID} --paths /\*              
             fi
-  notify:
-    docker:
-      - image: "cimg/base:stable"
+  notify-via-slack:
+    executor: slack-executor
+    resource_class: small
     steps:
       - slack/notify:
-          custom: |
-            {
-              "blocks": [
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "plain_text",
-                      "text": "*This is a text notification*",
-                      "emoji": true
-                    }
-                  ]
-                }
-              ]
-            }
-          event: always
+          message: "${CIRCLE_BRANCH} branch deployment to aws S3 and cloudfront is complete"
+          mentions: "fadil.ntksmh"
+          color: "#42e2f4"
 workflows:
   build_and_deploy:
     jobs:
@@ -177,6 +167,5 @@ workflows:
                 - staging
                 - master
   send-notification:
-    jobs:
-      - notify:
-          context: Incredible Context
+    jobs: 
+      - notify-via-slack
