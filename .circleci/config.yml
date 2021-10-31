@@ -168,4 +168,6 @@ workflows:
                 - master
   send-notification:
     jobs: 
-      - notify-via-slack
+      - notify-via-slack:
+          context: Incredible Context
+      
