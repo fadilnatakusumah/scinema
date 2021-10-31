@@ -133,13 +133,29 @@ jobs:
     steps:
       - run: echo "Notify to slack"
       - slack/notify:
-          event: fail
-          mentions: '@fadil.ntksmh'
-          template: basic_fail_1
-      - slack/notify:
           mentions: '@fadil.ntksmh'
           event: pass
-          template: success_tagged_deploy_1
+          template: ""
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "plain_text",
+                      "text": "*This is a text notification*",
+                      "emoji": true
+                    },
+                     {
+                      "type": "plain_text",
+                      "text": "*This is second field*",
+                      "emoji": true
+                    }
+                  ]
+                }
+              ]
+            }
 workflows:
   build_and_deploy:
     jobs:
