@@ -30,6 +30,9 @@ executors:
     docker:
       - image: cimg/node:16.13.0
     working_directory: ~/repo
+  slack-executor:
+    docker:
+      - image: "cimg/base:stable"
 
 aliases:
   - &show-current-branch-name
@@ -124,31 +127,52 @@ jobs:
             else
               aws cloudfront create-invalidation --distribution-id ${DEV_DISTRIBUTION_ID} --paths /\*              
             fi
-  notify:
-    docker:
-      - image: "cimg/base:stable"
+  notify-via-slack:
+    executor: slack-executor
+    resource_class: small
     steps:
+      - run: echo "Notify to slack"
       - slack/notify:
+          mentions: "@fadil.ntksmh"
+          event: pass
+          template: ""
           custom: |
             {
               "blocks": [
                 {
                   "type": "section",
-                  "fields": [
-                    {
-                      "type": "plain_text",
-                      "text": "*This is a text notification*",
-                      "emoji": true
-                    }
-                  ]
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "> ${CIRCLE_BRANCH} branch deployment to AWS S3 and Cloudfront is complete.",
+                  }
                 }
-              ]
+              ],
+              {
+                "type": "actions",
+                "elements": [
+                  {
+                    "type": "button",
+                    "text": {
+                      "type": "plain_text",
+                      "text": "Visit Job",
+                      "emoji": true
+                    },
+                    "value": "click_me_123",
+                    "url": $CIRCLE_BUILD_URL
+                  }
+                ]
+              }
             }
-          event: always
 workflows:
   build_and_deploy:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              only:
+                - dev
+                - staging
+                - master
       - linting:
           requires:
             - build
@@ -176,7 +200,15 @@ workflows:
                 - dev
                 - staging
                 - master
-  send-notification:
-    jobs:
-      - notify:
-          context: Incredible Context
+      - notify-via-slack:
+          requires:
+            - "deploy-to-aws-cloudfront"
+          context: incredible-slack-secrets
+          filters:
+            branches:
+              only:
+                - dev
+                - staging
+                - master          
+
+      
