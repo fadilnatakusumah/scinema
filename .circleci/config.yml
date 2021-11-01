@@ -133,7 +133,6 @@ jobs:
     steps:
       - run: echo "Notify to slack"
       - slack/notify:
-          mentions: "@fadil.ntksmh"
           event: pass
           custom: |
             {
@@ -142,7 +141,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "> ${CIRCLE_BRANCH} branch deployment to AWS S3 and Cloudfront is complete.",
+                    "text": "> ${CIRCLE_BRANCH} branch deployment to AWS S3 and Cloudfront is complete."
                   }
                 }
               ]
