@@ -24,7 +24,6 @@ version: 2.1
 
 orbs:
   slack: circleci/slack@4.4.4
-  irc: circleci/irc@0.2.0
 
 executors:
   image-executor:
@@ -134,35 +133,36 @@ jobs:
     steps:
       - run: echo "Notify to slack"
       - slack/notify:
-          message: "${CIRCLE_BRANCH} branch deployment to aws S3 and cloudfront is complete."
-          webhook: $CIRCLECI_SLACK_WEBHOOK
-      - slack/status:
-          webhook: $CIRCLECI_SLACK_WEBHOOK
-      # - slack/notify:
-      #     mentions: '@fadil.ntksmh'
-      #     event: pass
-      #     template: ""
-      #     custom: |
-      #       {
-      #         "blocks": [
-      #           {
-      #             "type": "section",
-      #             "fields": [
-      #               {
-      #                 "type": "plain_text",
-      #                 "text": "*This is a text notification*",
-      #                 "emoji": true
-      #               },
-      #             ]
-      #           }
-      #         ]
-      #       }
-      # - irc/notify:
-      #     channel: scinema-circleci
-      #     message: Build completed!
-      #     nick: circleci-bot
-      #     port: 6667
-      #     server: 127.0.0.1
+          mentions: "@fadil.ntksmh"
+          event: pass
+          template: ""
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "> ${CIRCLE_BRANCH} branch deployment to AWS S3 and Cloudfront is complete.",
+                  }
+                }
+              ],
+              {
+                "type": "actions",
+                "elements": [
+                  {
+                    "type": "button",
+                    "text": {
+                      "type": "plain_text",
+                      "text": "Visit Job",
+                      "emoji": true
+                    },
+                    "value": "click_me_123",
+                    "url": $CIRCLE_BUILD_URL
+                  }
+                ]
+              }
+            }
 workflows:
   build_and_deploy:
     jobs:
