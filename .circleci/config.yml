@@ -138,15 +138,13 @@ jobs:
           template: ""
           custom: |
             {
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "> ${CIRCLE_BRANCH} branch deployment to AWS S3 and Cloudfront is complete.",
-                  }
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "> ${CIRCLE_BRANCH} branch deployment to AWS S3 and Cloudfront is complete.",
                 }
-              ],
+              },
               {
                 "type": "actions",
                 "elements": [
