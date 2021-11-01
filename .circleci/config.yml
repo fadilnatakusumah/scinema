@@ -144,21 +144,6 @@ jobs:
                     "type": "mrkdwn",
                     "text": "> ${CIRCLE_BRANCH} branch deployment to AWS S3 and Cloudfront is complete.",
                   }
-                },
-                {
-                  "type": "actions",
-                  "elements": [
-                    {
-                      "type": "button",
-                      "text": {
-                        "type": "plain_text",
-                        "text": "Visit Job",
-                        "emoji": true
-                      },
-                      "value": "click_me_123",
-                      "url": $CIRCLE_BUILD_URL
-                    }
-                  ]
                 }
               ]
             }
