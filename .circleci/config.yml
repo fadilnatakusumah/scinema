@@ -149,43 +149,43 @@ jobs:
 workflows:
   build_and_deploy:
     jobs:
-      # - build:
-      #     filters:
-      #       branches:
-      #         only:
-      #           - dev
-      #           - staging
-      #           - master
-      # - linting:
-      #     requires:
-      #       - build
-      #     filters:
-      #       branches:
-      #         only:
-      #           - dev
-      #           - staging
-      #           - master
-      # - deploy-to-aws-s3:
-      #     requires:
-      #       - linting
-      #     filters:
-      #       branches:
-      #         only:
-      #           - dev
-      #           - staging
-      #           - master
-      # - deploy-to-aws-cloudfront:
-      #     requires:
-      #       - deploy-to-aws-s3
-      #     filters:
-      #       branches:
-      #         only:
-      #           - dev
-      #           - staging
-      #           - master
+      - build:
+          filters:
+            branches:
+              only:
+                - dev
+                - staging
+                - master
+      - linting:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - dev
+                - staging
+                - master
+      - deploy-to-aws-s3:
+          requires:
+            - linting
+          filters:
+            branches:
+              only:
+                - dev
+                - staging
+                - master
+      - deploy-to-aws-cloudfront:
+          requires:
+            - deploy-to-aws-s3
+          filters:
+            branches:
+              only:
+                - dev
+                - staging
+                - master
       - notify-via-slack:
-          # requires:
-          #   - "deploy-to-aws-cloudfront"
+          requires:
+            - "deploy-to-aws-cloudfront"
           context: incredible-slack-secrets
           filters:
             branches:
