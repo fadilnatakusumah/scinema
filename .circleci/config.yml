@@ -135,7 +135,6 @@ jobs:
       - slack/notify:
           mentions: "@fadil.ntksmh"
           event: pass
-          template: ""
           custom: |
             {
               "blocks": [
