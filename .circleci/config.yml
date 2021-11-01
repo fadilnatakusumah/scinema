@@ -133,50 +133,35 @@ jobs:
     steps:
       - run: echo "Notify to slack"
       - slack/notify:
-          mentions: "@fadil.ntksmh"
+          mentions: "<@U02KRCC5YLU>"
           event: pass
           custom: |
             {
               "blocks": [
                 {
                   "type": "section",
-                  "fields": [
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "> ${CIRCLE_BRANCH} branch deployment to AWS S3 and Cloudfront is complete.",
+                  }
+                },
+                {
+                  "type": "actions",
+                  "elements": [
                     {
-                      "type": "plain_text",
-                      "text": "> ${CIRCLE_BRANCH} branch deployment to AWS S3 and Cloudfront is complete.",
-                      "emoji": true
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "Visit Job",
+                        "emoji": true
+                      },
+                      "value": "click_me_123",
+                      "url": $CIRCLE_BUILD_URL
                     }
                   ]
                 }
               ]
             }
-          # custom: |
-          #   {
-          #     "blocks": [
-          #       {
-          #         "type": "section",
-          #         "text": {
-          #           "type": "mrkdwn",
-          #           "text": "> ${CIRCLE_BRANCH} branch deployment to AWS S3 and Cloudfront is complete.",
-          #         }
-          #       },
-          #       {
-          #         "type": "actions",
-          #         "elements": [
-          #           {
-          #             "type": "button",
-          #             "text": {
-          #               "type": "plain_text",
-          #               "text": "Visit Job",
-          #               "emoji": true
-          #             },
-          #             "value": "click_me_123",
-          #             "url": $CIRCLE_BUILD_URL
-          #           }
-          #         ]
-          #       }
-          #     ]
-          #   }
 workflows:
   build_and_deploy:
     jobs:
